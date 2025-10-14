@@ -1,6 +1,5 @@
 options:
   logging: CLOUD_LOGGING_ONLY
-  logsBucket: "gs://dice-roller-build-logs"
 
 steps:
 # Step 1: Run unit tests
