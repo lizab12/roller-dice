@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🎲 Cloud Dice Roller</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        button { padding: 10px 20px; font-size: 18px; cursor: pointer; }
+        #result { font-size: 48px; margin-top: 20px; color: #007bff; }
+    </style>
+</head>
+<body>
+    <h1>🎲 Cloud Dice Roller</h1>
+    <button onclick="rollDice()">Roll the Dice!</button>
+    <div id="result">-</div>
+
+    <script>
+        function rollDice() {
+            fetch('/roll')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = data.result;
+            })
+            .catch(err => console.error(err));
+        }
+    </script>
+</body>
+</html>

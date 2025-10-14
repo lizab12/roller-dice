@@ -1,0 +1,33 @@
+steps:
+# Step 1: Run unit tests
+- name: 'python:3.9-slim'
+  entrypoint: bash
+  args:
+    - -c
+    - |
+      pip install -r requirements.txt
+      python -m unittest discover
+
+# Step 2: Build Docker image
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    ['build', '-t', 'us-central1-docker.pkg.dev/rolling-dice-475106/dice-app/dice-roller:$SHORT_SHA', '.']
+
+# Step 3: Push image to Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    ['push', 'us-central1-docker.pkg.dev/rolling-dice-475106/dice-app/dice-roller:$SHORT_SHA']
+
+# Step 4: Deploy to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+    ['run', 'deploy', 'dice-roller',
+     '--image', 'us-central1-docker.pkg.dev/rolling-dice-475106/dice-app/dice-roller:$SHORT_SHA',
+     '--region', 'us-central1',
+     '--platform', 'managed',
+     '--allow-unauthenticated']
+
+images:
+- 'us-central1-docker.pkg.dev/rolling-dice-475106/dice-app/dice-roller:$SHORT_SHA'
+
