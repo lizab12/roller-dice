@@ -1,1 +1,8 @@
 Flask==2.2.5
+Werkzeug==2.2.3
+click==8.1.8
+itsdangerous==2.2.0
+Jinja2==3.1.6
+importlib-metadata==8.7.0
+MarkupSafe==3.0.3
+zipp==3.23.0
